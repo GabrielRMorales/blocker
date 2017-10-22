@@ -1,12 +1,3 @@
-chrome.app.runtime.onLaunched.addListener(function() {
-  chrome.app.window.create('window.html', {
-    'outerBounds': {
-      'width': 400,
-      'height': 500
-    }
-  });
-});
-
 // When the extension is installed or upgraded ...
 chrome.runtime.onInstalled.addListener(function() {  
   // Replace all rules ...
@@ -28,7 +19,7 @@ chrome.runtime.onInstalled.addListener(function() {
 });
 
 
-chrome.pageAction.onClicked.addListener(function(tab) { 
-  chrome.tabs.executeScript({file: "js/jquery-3.2.1.min.js"});
+chrome.pageAction.onClicked.addListener(function(tab) {  
   chrome.tabs.executeScript(null, {file: "content.js"});
+  chrome.tabs.executeScript({file: "js/jquery-3.2.1.min.js"});
 });
