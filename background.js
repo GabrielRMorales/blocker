@@ -19,7 +19,7 @@ chrome.runtime.onInstalled.addListener(function() {
 });
 
 
-chrome.pageAction.onClicked.addListener(function(tab) {  
+chrome.browserAction.onClicked.addListener(function(tab) {  
   chrome.tabs.executeScript(null, {file: "content.js"});
   chrome.tabs.executeScript({file: "js/jquery-3.2.1.min.js"});
 });
