@@ -16,7 +16,8 @@
     },
     "permissions" : [
       "declarativeContent",
-      "activeTab"
+      "activeTab",
+      "storage"
     ],
     "content_scripts":
     [
