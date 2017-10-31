@@ -1,34 +1,50 @@
 $(document).ready(function(){
 
-var z;
-chrome.storage.local.get("words", function(res){ 
+  var z;
+  chrome.storage.local.get("words", function(res){ 
         //alert("Got "+res.words);
-          z=res.words;
-          console.log("Check 1:"+Array.isArray(z) + " " + typeof(z));
-          showHide(z);
-        });
+        z=res.words;
+        console.log("Check 1:"+Array.isArray(z) + " " + typeof(z));
+        showHide(z);
+      });
 //
 $(".yt-uix-button").click(function () {
-    console.log("LOADED MORE");
+  console.log("LOADED MORE");
 }); 
 
-//showHide(["Dragon","Goku","Beerus","God","super","dragon"]);
+//showHide([Dragon,Goku,Beerus,God,super,dragon]);
 /*$(".yt-ui-ellipsis").each(function(){
 console.log($(this).attr('title'));
 
 });*/
 function showHide(no_spoiling) {
   console.log("Check 2: z is "+z);
+
   for (var i=0;i<no_spoiling.length;i++){
-  $(".yt-lockup-title").each(function(){
+    $(".yt-lockup-title").each(function(){
+      var spoiler_lower=(no_spoiling[i]).toLowerCase();
+    //THE BIG PROBLEM HERE IS THAT " Dragon" got saved instead of "Dragon"--this needs to be fixed when you get the data from the HTML input
+   // console.log("lower case: "+spoiler_lower);
+   var a=$(this).text().indexOf(no_spoiling[i]);
+   var a_lower=$(this).text().indexOf(spoiler_lower);
+   var b=$(this).children().first().attr('title');
+   var c;
+   var c_lower;
+   b!=undefined ? c=b.indexOf(no_spoiling[i]): c=-1;
+   b!=undefined ? c_lower = b.indexOf(spoiler_lower): c_lower=-1;
+    //console.log(b+ ": "+a +" " +c + " " + a_lower + " "+c_lower);
+    if (b!=undefined){
+      b=b.split(" ");
+      b.push(spoiler_lower);
+    //console.log(b);
+  } 
+  if (a != -1||c!=-1||a_lower != -1||c_lower!=-1){
     
-    if ($(this).text().indexOf(no_spoiling[i]) != -1 ){
-          console.log($(this).children().first().attr('title'));
-          $(this).text("SPOILER ALERT");
-          $(this).parent().prev().children().first().children().first().children().first().find("img").attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
-             }
-      });
-}  
+    $(this).text("SPOILER ALERT");
+    $(this).parent().prev().children().first().children().first().children().first().find("img").attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
+  }
+});
+  }  
 }
 
 //Later: look up the tags of the videos and if they contain the keywords, block them.
@@ -66,7 +82,7 @@ $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=MoLkabPK3YU&key=AIzaS
         });*/
         
         //call showHide on these titles/thumbnails and block
-            
+        
 
    // });
 
