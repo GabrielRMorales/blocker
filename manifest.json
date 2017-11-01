@@ -8,7 +8,7 @@
       "scripts": ["js/jquery-3.2.1.min.js","background.js"],
       "persistent": false
     },
-    "page_action" :
+    "browser_action" :
     {
       "default_icon" : "images/icon-19.png",
       "default_popup" : "popup.html",
@@ -22,8 +22,8 @@
     "content_scripts":
     [
         {
-            "matches": ["*://*.youtube.com/*"],
-            "js": ["js/jquery-3.2.1.min.js","content.js"],
+            "matches": ["http://*/*", "https://*/*","*://*.youtube.com/*"],
+            "js": ["js/jquery-3.2.1.min.js","content.js","popup.js"],
             "run_at": "document_end"
         }
     ],
