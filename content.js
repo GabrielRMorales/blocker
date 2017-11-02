@@ -26,6 +26,27 @@ function showHide(no_spoiling) {
 
   for (var i=0;i<no_spoiling.length;i++){
     $(".yt-lockup-title").each(function(){
+
+/*LATER ADD API TAG CHECKING
+    var d;  
+    var vidInfo=$(this).children().first().attr("href");
+
+    if (vidInfo){
+      var v=vidInfo.split("").slice(9,20).join("");
+      console.log("V is" + v);
+        if (v) {
+        var api="https://www.googleapis.com/youtube/v3/videos?key=AIzaSyAneX8mT-5Z6LHiG7SXJwwhWBwmn_dybcA&fields=items(snippet(title,description,tags))&part=snippet&id=" +v;
+          $.getJSON(api, function(data){   
+         d = data.items[0].snippet.tags;
+         if (d) {
+          d=d.indexOf(no_spoiling[i]);
+         }
+         console.log(d);
+          });
+        }
+
+    }
+*/
       var spoiler_lower=(no_spoiling[i]).toLowerCase();
       var a=$(this).text().indexOf(no_spoiling[i]);
       var a_lower=$(this).text().indexOf(spoiler_lower);
@@ -38,26 +59,29 @@ function showHide(no_spoiling) {
   if (a != -1||c!=-1||a_lower != -1||c_lower!=-1){
     
     $(this).text("SPOILER ALERT");
-    $(this).parent().prev().children().first().children().first().children().first().find("img").attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
-    //.bind("load",
-     // function(){
-        //console.log($(this).attr("src",));
-       // $(this).attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
+    var image = $(this).parent().prev().children().first().children().first().children().first().find("img");
+    image.attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
+    
+    image.bind("load",function(){
+      var pic=image.attr("src");
+      if (pic != "https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png"){
+      image.attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
+    }
+    
+    });
         //this works but it slows down more page loading impossibly
-        $(this).onload=function(){
+      /*  $(this).onload=function(){
           $(this).attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
-        }
+        } */
+        //This only partially works 
+      
+
       //});
   }
+
 });
   }  
 }
-
-//Later: look up the tags of the videos and if they contain the keywords, block them.
-
-
-
-
 
   //Also youtube videos on the sidebar when you watch one and that appear on the same screen
 //collect user input on things they dont want to see
