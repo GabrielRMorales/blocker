@@ -7,8 +7,16 @@ $(document).ready(function(){
 
  getVal(function(res){
     z=res.words;
-    console.log("Check 1:"+Array.isArray(z) + " " + typeof(z));
+    //console.log("Check 1:"+Array.isArray(z) + " " + typeof(z));
     showHide(z);
+  var feed_check=$("#feed-main-what_to_watch").children().first();
+  $(feed_check).arrive(".yt-lockup-dismissable",function(newElem){
+    
+    //console.log(newElem.childNodes);
+    showHide(z);
+    //This is GOOD! It works as hoped. Implements the spoiler blocker, now it just needs to work at the beginning as well ie refactored
+  });
+
   });
   
   //
@@ -22,13 +30,14 @@ console.log($(this).attr('title'));
 
 });*/
 function showHide(no_spoiling) {
-  console.log("Check 2: blocked list is "+z);
+ // console.log("Check 2: blocked list is "+z);
 
   for (var i=0;i<no_spoiling.length;i++){
     $(".yt-lockup-title").each(function(){
 
-/*LATER ADD API TAG CHECKING
-    var d;  
+//LATER ADD API TAG CHECKING
+/*
+    var inOrNot;  
     var vidInfo=$(this).children().first().attr("href");
 
     if (vidInfo){
@@ -37,11 +46,11 @@ function showHide(no_spoiling) {
         if (v) {
         var api="https://www.googleapis.com/youtube/v3/videos?key=AIzaSyAneX8mT-5Z6LHiG7SXJwwhWBwmn_dybcA&fields=items(snippet(title,description,tags))&part=snippet&id=" +v;
           $.getJSON(api, function(data){   
-         d = data.items[0].snippet.tags;
-         if (d) {
-          d=d.indexOf(no_spoiling[i]);
+         inOrNot = data.items[0].snippet.tags;
+         if (inOrNot) {
+          inOrNot=inOrNot.indexOf(no_spoiling[i]);
          }
-         console.log(d);
+         console.log("inOrNot "+inOrNot);
           });
         }
 
@@ -67,16 +76,14 @@ function showHide(no_spoiling) {
       if (pic != "https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png"){
       image.attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
     }
-    
-    });
-        //this works but it slows down more page loading impossibly
+
       /*  $(this).onload=function(){
           $(this).attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
         } */
         //This only partially works 
       
 
-      //});
+    });
   }
 
 });
