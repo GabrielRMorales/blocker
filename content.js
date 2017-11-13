@@ -8,23 +8,24 @@ $(document).ready(function(){
  getVal(function(res){
     z=res.words;
     //console.log("Check 1:"+Array.isArray(z) + " " + typeof(z));
-    showHide(z);
+   // showHide(z); blocked out to test hideInSides();
+   hideInSides(z);
   var feed_check=$("#feed-main-what_to_watch").children().first();
   $(feed_check).arrive(".yt-lockup-dismissable",function(newElem){
     
     //console.log(newElem.childNodes);
-    showHide(z);
+   // showHide(z); blocked out to test hideInSides();
     //This is GOOD! It works as hoped. Implements the spoiler blocker, now it just needs to work at the beginning as well ie refactored
   });
+  $(".watch-sidebar-section").arrive(".video-list-item",function(){
+    hideInSides(z);
+    //works
+  });
+
+
 
   });
   
-  //
-     
-/*$(".yt-uix-button").click(function () {
-  console.log("LOADED MORE");
-}); */
-//showHide([Dragon,Goku,Beerus,God,super,dragon]);
 /*$(".yt-ui-ellipsis").each(function(){
 console.log($(this).attr('title'));
 
@@ -35,9 +36,8 @@ function showHide(no_spoiling) {
   for (var i=0;i<no_spoiling.length;i++){
     $(".yt-lockup-title").each(function(){
 
-//LATER ADD API TAG CHECKING
-/*
-    var inOrNot;  
+    var inOrNot;
+    /*LATER ADD API TAG CHECKING-though it may act as a throttle, so work on this
     var vidInfo=$(this).children().first().attr("href");
 
     if (vidInfo){
@@ -45,17 +45,18 @@ function showHide(no_spoiling) {
       console.log("V is" + v);
         if (v) {
         var api="https://www.googleapis.com/youtube/v3/videos?key=AIzaSyAneX8mT-5Z6LHiG7SXJwwhWBwmn_dybcA&fields=items(snippet(title,description,tags))&part=snippet&id=" +v;
-          $.getJSON(api, function(data){   
+        $.getJSON(api, function(data){   
          inOrNot = data.items[0].snippet.tags;
-         if (inOrNot) {
-          inOrNot=inOrNot.indexOf(no_spoiling[i]);
-         }
          console.log("inOrNot "+inOrNot);
+        if (inOrNot) {
+          inOrNot=inOrNot.indexOf(no_spoiling[i]);
+        }
+         
           });
         }
 
     }
-*/
+  */
       var spoiler_lower=(no_spoiling[i]).toLowerCase();
       var a=$(this).text().indexOf(no_spoiling[i]);
       var a_lower=$(this).text().indexOf(spoiler_lower);
@@ -65,7 +66,7 @@ function showHide(no_spoiling) {
       b!=undefined ? c=b.indexOf(no_spoiling[i]): c=-1;
       b!=undefined ? c_lower = b.indexOf(spoiler_lower): c_lower=-1;
    
-  if (a != -1||c!=-1||a_lower != -1||c_lower!=-1){
+  if (a != -1||c!=-1||a_lower != -1||c_lower!=-1||(inOrNot!=undefined&&inOrNot!=-1)){
     
     $(this).text("SPOILER ALERT");
     var image = $(this).parent().prev().children().first().children().first().children().first().find("img");
@@ -90,37 +91,44 @@ function showHide(no_spoiling) {
   }  
 }
 
-  //Also youtube videos on the sidebar when you watch one and that appear on the same screen
-//collect user input on things they dont want to see
-//$(function() {
+//Also youtube videos on the sidebar when you watch one and that appear on the same screen
+function hideInSides(no_spoiling){
+  //works, just needs refactoring
+  for (var i=0;i<no_spoiling.length;i++){
+    $(".video-list-item").each(function(){
+      var sideArray=$(this).children().first().text().split(" ");
+      var spoiler_lower=(no_spoiling[i]).toLowerCase();
+      var a=sideArray.indexOf(no_spoiling[i]);
+      /*var a_lower=$(this).text().indexOf(spoiler_lower);
+      var b=$(this).children().first().attr('title');
+      var c;
+      var c_lower;
+      b!=undefined ? c=b.indexOf(no_spoiling[i]): c=-1;
+      b!=undefined ? c_lower = b.indexOf(spoiler_lower): c_lower=-1;
+   */
+  if (a != -1){
    
-    //$("#get_words").click(function() {
-      //$("#body").css("background","blue");
-       // var y = $("#words").val().split(",");
-        
-      /*for (var i=0;i<y.length;i++){
-          
-          //showHide(y[i]);
-          //console.log(y[i]);
-        }
+   $(this).children().first().find('span').first().text("SPOILER ALERT!");
+   //works
+   var image=$(this).find(".thumb-wrapper").children().children().first().find("img");
 
-       /* x = chrome.storage.local.get("words", function(){ 
-          alert("Got "+x);
-        }) || chrome.storage.local.set({"words": y}, function(){
-          x = y;
-          alert("Saving "+ x);
-        });*/
-        
-        //call showHide on these titles/thumbnails and block
-        
+   image.attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
+    
+    image.bind("load",function(){
+      var pic=image.attr("src");
+      if (pic != "https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png"){
+      image.attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
+      }
+      });
+    
+  }
 
-   // });
+});
+  }  
 
-//});
-
-//Later: Be able to toggle with showHide whether videos are blocked or not
-
-
-
+}
+  //call showHide on these titles/thumbnails and block
+  //collect user input on things they dont want to see
+  //Later: Be able to toggle with showHide whether videos are blocked or not
 
 });
