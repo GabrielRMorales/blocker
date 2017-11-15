@@ -1,28 +1,30 @@
 $(document).ready(function(){
-
+  //Add a way to remove only one word at a time and not delete it ALL
+  //Add a comment blocker for playing videos that have tags that match the identified words
   var z;
   function getVal(cb){
    chrome.storage.local.get("words",cb);
   }
 
- getVal(function(res){
+getVal(function(res){
     z=res.words;
     //console.log("Check 1:"+Array.isArray(z) + " " + typeof(z));
-   // showHide(z); blocked out to test hideInSides();
-   hideInSides(z);
+if (z!=undefined){
+  showHide(z); 
+  hideInSides(z);
   var feed_check=$("#feed-main-what_to_watch").children().first();
   $(feed_check).arrive(".yt-lockup-dismissable",function(newElem){
     
     //console.log(newElem.childNodes);
-   // showHide(z); blocked out to test hideInSides();
+    showHide(z);
+    //blocked out to test hideInSides();
     //This is GOOD! It works as hoped. Implements the spoiler blocker, now it just needs to work at the beginning as well ie refactored
   });
   $(".watch-sidebar-section").arrive(".video-list-item",function(){
     hideInSides(z);
     //works
   });
-
-
+}
 
   });
   
@@ -78,11 +80,6 @@ function showHide(no_spoiling) {
       image.attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
     }
 
-      /*  $(this).onload=function(){
-          $(this).attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
-        } */
-        //This only partially works 
-      
 
     });
   }

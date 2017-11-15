@@ -2,9 +2,15 @@ $(document).ready(function(){
 
 var current;
 chrome.storage.local.get(function(result){
+    if (result["words"]!=undefined){
     $("#list").text(result["words"]);
     current=result["words"];
     console.log("Check 2: blocked list is "+ current);
+    }
+    else {
+    $("#list").text("No spoilers blocked.");  
+    } 
+    
     
 });
 
@@ -27,45 +33,27 @@ $("#clear").click(function(){
     });
 });
 
-//maybe keep this here
-function showHide(no_spoiling) {
-  for (var i=0;i<no_spoiling.length;i++){
-    $(".yt-lockup-title").each(function(){
-      var spoiler_lower=(no_spoiling[i]).toLowerCase();
-      var a=$(this).text().indexOf(no_spoiling[i]);
-      var a_lower=$(this).text().indexOf(spoiler_lower);
-      var b=$(this).children().first().attr('title');
-      var c;
-      var c_lower;
-      b!=undefined ? c=b.indexOf(no_spoiling[i]): c=-1;
-      b!=undefined ? c_lower = b.indexOf(spoiler_lower): c_lower=-1;
-   
-  if (a != -1||c!=-1||a_lower != -1||c_lower!=-1){
-    
-    $(this).text("SPOILER ALERT");
-    $(this).parent().prev().children().first().children().first().children().first().find("img").attr("src","https://pbs.twimg.com/profile_images/660830301187371009/LzVqWfh0.png");
-  }
-});
-  }  
-}
-//
-
 $("#get_words").click(function() {
 //IN ORDER TO CHECK LOCAL STORAGE DO THIS IN THE EXTENSION DEV TOOLS chrome.storage.local.get(function(result){console.log(result)})
 
-
+//Dragon,Goku,Beerus,God,Star,Thor,Blade,Justice,Final,Game
 
 var y = $("#words").val().split(",");
-console.log(y);
+if (y!=undefined&&current!=undefined){
+  y+=","+current;
+  console.log(y);
+
+}
+chrome.storage.local.set({"words": y}, function(){
+  $("#list").text("words: "+y);  
+  });
+
     /*x = current.split(",");
     console.log("x is "+x);
     y.push(x);*/
 //showHide(y);
 //TEST THIS $("#feed").load("ajax/test.html");
-chrome.storage.local.set({"words": y}, function(){
-  $("#list").text("words: "+y);
-  
-});
+
 
 });
  /*chrome.storage.local.get(function(items) {
