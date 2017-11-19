@@ -1,0 +1,11 @@
+ #popup {
+  font-family: Helvetica, Serif;
+  background-color: #42b6f4;
+ }
+ #get_words, #remove_words, #clear {
+  border-radius: 5px;
+ }
+ #list {
+  border: solid 2px red;
+  
+ }

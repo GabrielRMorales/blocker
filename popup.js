@@ -1,14 +1,16 @@
 $(document).ready(function(){
 
 var current;
+
 chrome.storage.local.get(function(result){
     if (result["words"]!=undefined){
-    $("#list").text(result["words"]);
-    current=result["words"];
-    console.log("Check 2: blocked list is "+ current);
+        $("#list").text(result["words"]);
+        current=result["words"];
+        console.log("Check 2: blocked list is "+ current);
+        
     }
     else {
-    $("#list").text("No spoilers blocked.");  
+        $("#list").text("No spoilers blocked.");  
     } 
     
     
@@ -37,15 +39,15 @@ $("#get_words").click(function() {
 //IN ORDER TO CHECK LOCAL STORAGE DO THIS IN THE EXTENSION DEV TOOLS chrome.storage.local.get(function(result){console.log(result)})
 
 //Dragon,Goku,Beerus,God,Star,Thor,Blade,Justice,Final,Game
+var addThese = $("#words").val().split(",");
+if (addThese!=undefined&&current!=undefined){
+  //addThese and current are arrays
+  addThese=addThese.concat(current);
 
-var y = $("#words").val().split(",");
-if (y!=undefined&&current!=undefined){
-  y+=","+current;
-  console.log(y);
 
 }
-chrome.storage.local.set({"words": y}, function(){
-  $("#list").text("words: "+y);  
+chrome.storage.local.set({"words": addThese}, function(){
+  $("#list").text("words: "+addThese);  
   });
 
     /*x = current.split(",");
@@ -54,6 +56,25 @@ chrome.storage.local.set({"words": y}, function(){
 //showHide(y);
 //TEST THIS $("#feed").load("ajax/test.html");
 
+
+});
+
+$("#remove_words").click(function(){
+    var newarr=[], removeThese = $("#words").val().split(",");
+
+    if (removeThese!=undefined&&current!=undefined){
+      for (var i=0;i<current.length;i++){
+          var u=removeThese.indexOf(current[i]);
+            if (u==-1){
+               newarr.push(current[i]);
+            }  
+        }
+             //This function needs to get fixed        
+    }
+    //newarr=String(newarr);
+    chrome.storage.local.set({"words": newarr}, function(){
+        $("#list").text("words: "+newarr);  
+        });
 
 });
  /*chrome.storage.local.get(function(items) {

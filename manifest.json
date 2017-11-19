@@ -23,6 +23,7 @@
     [
         {
             "matches": ["http://*/*", "https://*/*","*://*.youtube.com/*"],
+            "css": ["css/style.css"],
             "js": ["js/jquery-3.2.1.min.js","js/arrive.js","content.js","popup.js"],
             "run_at": "document_end"
         }

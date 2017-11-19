@@ -9,19 +9,21 @@
 
         <link rel="manifest" href="site.webmanifest">
         <link rel="apple-touch-icon" href="icon.png">
+       <link rel="stylesheet" href="css/style.css">
     <title>Youtube Spoiler Blocker</title>    
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="popup.js"></script>
   </head>
-  <body>
+  <body id="popup">
     <h1>Youtube Spoiler Blocker</h1>
       <h2>Avoiding spoilers for...</h2>
       <p id="list"></p>
       <form>
-      <label>Please enter the shows you would like to avoid seeing spoilers for (separate each by a comma):<br>
-        <input type="text" id="words">
+      <label for="words">Please enter the shows you would like to avoid seeing spoilers for (separate each by a comma):<br>
+        <input type="text" id="words" required>
       </label>
       <input type="submit" value="Block these" id="get_words">
+      <input type="submit" value="Remove these" id="remove_words">
       </form>
       <br>
       <button id="clear">Clear data</button>
